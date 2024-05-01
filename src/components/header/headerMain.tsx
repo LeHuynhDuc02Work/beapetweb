@@ -1,11 +1,13 @@
 import Link from "next/link";
+import logo from "@/logo/Beapet.png";
+import Image from 'next/image';
 export default function HeaderMain() {
     return (
         <div className="header-main flex justify-between py-2 w-4/5 m-auto">
             <div className="header-main__logo flex justify-items-center items-center">
                 <Link href="/">
-                    <img className="logo-image"
-                        src="https://webadmin.beeart.vn/upload/image/20220629/6379211571097799404175786.jpg"
+                    <Image className="logo-image"
+                        src={logo}
                         width={100}
                         height={100}
                         alt="Picture of the author" />

@@ -5,7 +5,27 @@ function HeaderBottomItem() {
 
         <Link href="/category-product" className="">
             <li className="menu-item py-3 px-3 hover:text-black">
-                Trang chủ
+                Chó cưng
+            </li>
+        </Link >
+    );
+}
+function HeaderBottomItem1() {
+    return (
+
+        <Link href="/category-product" className="">
+            <li className="menu-item py-3 px-3 hover:text-black">
+                Mèo cưng
+            </li>
+        </Link >
+    );
+}
+function HeaderBottomItem2() {
+    return (
+
+        <Link href="/category-product" className="">
+            <li className="menu-item py-3 px-3 hover:text-black">
+                Đồ ăn
             </li>
         </Link >
     );
@@ -30,8 +50,8 @@ export default function HeaderBottom() {
                     <ul className="menu flex font-bold">
                         {HeaderBottomHome()}
                         {HeaderBottomItem()}
-                        {HeaderBottomItem()}
-                        {HeaderBottomItem()}
+                        {HeaderBottomItem1()}
+                        {HeaderBottomItem2()}
                     </ul>
                 </div>
             </div>

@@ -20,10 +20,10 @@ export default function AdminLayout({
         <html lang="en">
             <body className={inter.className}>
                 <div className="admin flex">
-                    <div className="admin__sidebar w-1/5 p-5">
+                    <div className="admin__sidebar w-1/4 p-5">
                         <Sidebar />
                     </div>
-                    <div className="admin__content">
+                    <div className="admin__content w-full">
                         {children}
                     </div>
                 </div>

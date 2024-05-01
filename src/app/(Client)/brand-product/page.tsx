@@ -23,8 +23,8 @@ function Product() {
                 <div className="product-item__info w-4/5 mx-auto">
                     <h1 className="product-item__info__name text-xl font-medium my-5">Thú cưng 1</h1>
                     <div className="product-item__price flex justify-between">
-                        <h1 className="product-item__info__newPrice font-bold leading-4 my-2 text-blue-300">100000</h1>
-                        <h1 className="product-item__info__price line-through font-bold leading-4 my-2 text-red-500">120000</h1>
+                        <h1 className="product-item__info__newPrice font-bold leading-4 my-2 text-blue-300">100.000đ</h1>
+                        <h1 className="product-item__info__price line-through font-bold leading-4 my-2 text-red-500">120.000đ</h1>
                     </div>
                 </div>
             </Link>
@@ -37,12 +37,12 @@ function DropdownFilter() {
     const selectedValue = selectedKeys;
 
     return (
-        <div className="brand-product__filter inline-block">
+        <div className="search-product__filter inline-block">
             <Dropdown>
                 <DropdownTrigger>
                     <Button
                         variant="bordered"
-                        className="capitalize  border"
+                        className="capitalize  border  p-2"
                     >
                         {selectedValue}
                     </Button>
@@ -69,7 +69,7 @@ export default function BrandProduct() {
             {Scrumb()}
             <div className="brand-product__header flex justify-between m-4">
                 <div className="brand-product__title">
-                    <h1 className="text-3xl font-bold">Brand - ABC</h1>
+                    <h1 className="text-3xl font-bold">Brand - PetYeu</h1>
                 </div>
                 <div className="brand-product__filter">
                     <span className="font-bold">Filter:</span> {DropdownFilter()}

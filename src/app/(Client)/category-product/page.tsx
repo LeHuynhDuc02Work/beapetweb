@@ -7,7 +7,7 @@ function Scrumb() {
     return (
         <div className="scrumb py-2 bg-slate-100">
             <p className="px-5 font-medium">
-                <Link className="hover:text-blue-300" href="/">Home</Link> / category - abc
+                <Link className="hover:text-blue-300" href="/">Home</Link> / category - Chó cưng
             </p>
         </div>
     )
@@ -21,10 +21,10 @@ function Product() {
                     <img className="w-full" src="https://img6.thuthuatphanmem.vn/uploads/2022/01/27/anh-thu-cung-cute_014114596.jpg" alt="anh san pham" />
                 </div>
                 <div className="product-item__info w-4/5 mx-auto">
-                    <h1 className="product-item__info__name text-xl font-medium my-5">Thú cưng 1</h1>
+                    <h1 className="product-item__info__name text-xl font-medium my-5">Chó cưng 1</h1>
                     <div className="product-item__price flex justify-between">
-                        <h1 className="product-item__info__newPrice font-bold leading-4 my-2 text-blue-300">100000</h1>
-                        <h1 className="product-item__info__price line-through font-bold leading-4 my-2 text-red-500">120000</h1>
+                        <h1 className="product-item__info__newPrice font-bold leading-4 my-2 text-blue-300">100.000đ</h1>
+                        <h1 className="product-item__info__price line-through font-bold leading-4 my-2 text-red-500">120.000đ</h1>
                     </div>
                 </div>
             </Link>
@@ -37,12 +37,12 @@ function DropdownFilter() {
     const selectedValue = selectedKeys;
 
     return (
-        <div className="category-product__filter inline-block">
+        <div className="search-product__filter inline-block">
             <Dropdown>
                 <DropdownTrigger>
                     <Button
                         variant="bordered"
-                        className="capitalize  border"
+                        className="capitalize  border  p-2"
                     >
                         {selectedValue}
                     </Button>
@@ -69,7 +69,7 @@ export default function CategoryProduct() {
             {Scrumb()}
             <div className="category-product__header flex justify-between m-4">
                 <div className="category-product__title">
-                    <h1 className="text-3xl font-bold">category - ABC</h1>
+                    <h1 className="text-3xl font-bold">Category - Chó cưng</h1>
                 </div>
                 <div className="category-product__filter">
                     <span className="font-bold">Filter:</span> {DropdownFilter()}
