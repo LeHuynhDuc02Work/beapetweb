@@ -1,6 +1,28 @@
+'use client'
 import Link from "next/link";
 import logo from "@/logo/Beapet.png";
 import Image from 'next/image';
+
+function handlUser() {
+
+    if (localStorage.getItem('user')) {
+        const userJSON = localStorage.getItem('user');
+        const user = JSON.parse(userJSON);
+        return (
+            <div className="header-main__action__item__text text-sm">
+                <Link className="hover:text-blue-300" href={"/user-info/?" + user?.id}>{user?.userName}</Link><br></br>
+                <a onClick={() => localStorage.removeItem('user')} className="hover:text-blue-300" href="/">Logout</a>
+            </div>
+        )
+    } else
+        return (
+            <div className="header-main__action__item__text text-sm">
+                <Link className="hover:text-blue-300" href="/login">Đăng nhập</Link><br></br>
+                <Link className="hover:text-blue-300" href="/register">Đăng ký</Link>
+            </div>
+        )
+}
+
 export default function HeaderMain() {
     return (
         <div className="header-main flex justify-between py-2 w-4/5 m-auto">
@@ -33,10 +55,7 @@ export default function HeaderMain() {
                     <div className="header-main__action__item__icon">
                         <svg className="text-blue-300" width="40px" height="40px" viewBox="0 0 24 24" fill="#93c5fd" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="#93c5fd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" stroke="#93c5fd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
                     </div>
-                    <div className="header-main__action__item__text text-sm">
-                        <Link className="hover:text-blue-300" href="/login">Đăng nhập</Link><br></br>
-                        <Link className="hover:text-blue-300" href="/register">Đăng ký</Link>
-                    </div>
+                    {handlUser()}
                 </div>
                 <div className="header-main__action__item  flex justify-items-center items-center mx-3">
                     <div className="header-main__action__item__icon">

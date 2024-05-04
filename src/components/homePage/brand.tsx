@@ -17,7 +17,7 @@ function brand() {
             .then(response => response.json())
             .then(brands => setBrands(brands));
     }, []);
-    console.log(brands);
+
     return (
         <Swiper
             modules={[Autoplay, Navigation, Pagination, A11y]}
@@ -49,6 +49,7 @@ function brand() {
                     </Link>
                 </SwiperSlide>
             ))}
+            <SwiperSlide></SwiperSlide>
         </Swiper>
     );
 }

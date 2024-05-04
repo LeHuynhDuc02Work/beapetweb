@@ -1,33 +1,35 @@
+"use client"
+import React, { useEffect, useState } from 'react';
 import Link from "next/link";
+import Api from "@/app/api";
 
 function HeaderBottomItem() {
-    return (
+    const [categories, setCategories] = useState([]);
 
-        <Link href="/category-product" className="">
-            <li className="menu-item py-3 px-3 hover:text-black">
-                Chó cưng
-            </li>
-        </Link >
-    );
-}
-function HeaderBottomItem1() {
+    useEffect(() => {
+        fetch(`${Api()}/categories`)
+            .then(response => response.json())
+            .then(_categories => setCategories(_categories));
+    }, []);
     return (
-
-        <Link href="/category-product" className="">
-            <li className="menu-item py-3 px-3 hover:text-black">
-                Mèo cưng
-            </li>
-        </Link >
-    );
-}
-function HeaderBottomItem2() {
-    return (
-
-        <Link href="/category-product" className="">
-            <li className="menu-item py-3 px-3 hover:text-black">
-                Đồ ăn
-            </li>
-        </Link >
+        <>
+            {
+                categories.map((category) => {
+                    if (category.quantity > 0)
+                        return (
+                            <a
+                                href={`/category-product?id=${category.id}`}
+                            >
+                                <li className="menu-item py-3 px-3 hover:text-black">
+                                    {category.name}
+                                </li>
+                            </a >
+                        )
+                    else
+                        return null;
+                })
+            }
+        </>
     );
 }
 
@@ -50,8 +52,6 @@ export default function HeaderBottom() {
                     <ul className="menu flex font-bold">
                         {HeaderBottomHome()}
                         {HeaderBottomItem()}
-                        {HeaderBottomItem1()}
-                        {HeaderBottomItem2()}
                     </ul>
                 </div>
             </div>
