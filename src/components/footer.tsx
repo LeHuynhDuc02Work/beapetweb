@@ -48,12 +48,9 @@ export default function Footer() {
                     </div>
                     <div className="footer-top__item__content my-4">
                         <ul>
-                            <li>Liên lạc</li>
-                            <li>Điều khoản sử dụng</li>
-                            <li>Chính sách giải quyết khiếu nại</li>
-                            <li>Chính sách bảo mật thông tin cá nhân</li>
-                            <li>Điều khoản dịch vụ</li>
-                            <li>Giới thiệu</li>
+                            <li>Phone: 0862.552.433</li>
+                            <li>Email: Ducle1701work@gmail.com</li>
+                            <li>Địa chỉ: Vũ Bản, Bình Lục, Hà Nam</li>
                         </ul>
                     </div>
                 </div>

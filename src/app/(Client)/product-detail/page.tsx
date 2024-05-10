@@ -5,6 +5,8 @@ import Api from "@/app/api";
 import Image from 'next/image'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination, A11y } from 'swiper/modules';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -18,6 +20,44 @@ function Scrumb() {
             </p>
         </div>
     )
+}
+
+async function AddShopcartHanlde({ product, quantity }) {
+    if (!localStorage.getItem('user')) {
+        window.location.href = "/login";
+    }
+    else {
+        const storedUser = localStorage.getItem('user');
+        const user = JSON.parse(storedUser);
+        let userId = user?.id;
+        console.log(userId)
+        let productId = product?.id;
+        const response = await fetch(`${Api()}/shop-cart/create`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ userId, productId, quantity }),
+        });
+
+        if (response.ok) {
+            const showToastMessage = () => {
+                toast.success("Đã thêm thành công!", {
+                    position: toast?.POSITION?.TOP_RIGHT,
+                });
+            };
+            showToastMessage();
+        }
+        else {
+            const showToastMessage = () => {
+                toast.error("Có lỗi xảy ra!", {
+                    position: toast?.POSITION?.TOP_RIGHT,
+                });
+            };
+            showToastMessage();
+        }
+    }
+
 }
 
 function ProductDetailItem({ product, brand }) {
@@ -68,11 +108,26 @@ function ProductDetailItem({ product, brand }) {
                     <div className="add-to-cart">
                         <div className="item_quantity product-quantity qty-click d-inline-block py-4">
                             <button onClick={() => setQuantity(quantity - 1)} type="button" className="btn-qtyminus border w-6">-</button>
-                            <input onChange={(e) => setQuantity(Number(e.target.value))} type="text" name="updates[]" min="1" id="updates_1122110893" data-price="24900000" value={quantity} className="item-quantity text-center border w-10" />
+                            <input
+                                onChange={(e) => {
+                                    if (quantity <= 0 || isNaN(quantity)) {
+                                        setQuantity(1);
+                                    }
+                                    else
+                                        setQuantity(Number(e.target.value))
+                                }}
+                                type="text" name="updates[]"
+                                value={quantity}
+                                className="item-quantity text-center border w-10" />
                             <button onClick={() => setQuantity(quantity + 1)} type="button" className="btn-qtyplus border w-6">+</button>
                         </div>
-                        <div className="action-add-to-cart  bg-red-500  text-center py-4">
-                            <Link href="#" className="checkout-btn text-white font-bold">Thêm vào giỏ hàng</Link>
+                        <div className="action-add-to-cart  bg-red-500 hover:bg-red-400 text-white font-bold  text-center">
+                            <button
+                                onClick={() => AddShopcartHanlde({ product, quantity })}
+                                className="checkout-btn w-full h-full  py-4">
+                                Thêm vào giỏ hàng
+                            </button>
+                            <ToastContainer />
                         </div>
                     </div>
                 </div>
