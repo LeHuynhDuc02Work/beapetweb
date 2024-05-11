@@ -18,48 +18,56 @@ function Scrumb() {
 }
 
 function OrderProductDetail({ products }) {
-    return (
-        <>
-            <div className="checkout-product_container border p-4">
-                <div className="checkout-product_list">
-                    {products.map((product, index) => {
-                        return (
-                            <div className="checkout-product_item  border-b flex p-2">
-                                <div className="checkout-product_item__image  mr-2">
-                                    <Image
-                                        className="rounded-md"
-                                        src={'/images/' + product?.image}
-                                        alt="product"
-                                        width={100}
-                                        height={100}
-                                    />
-                                </div>
-                                <div className="checkout-product_item__info w-full">
-                                    <h1 className="checkout-product_item__name font-bold">{product?.name}</h1>
-                                    <div className="checkout-product_item__price flex justify-between mt-1 w-full">
-                                        <h2 className="block">Số lượng: <span className="font-bold">{product?.quantityShopCart}</span></h2>
-                                        <h2 className="block">Tổng tiền: <span className="font-bold">
-                                            {(product?.salePrice * product?.quantityShopCart).toLocaleString('en-US')}đ
-                                        </span></h2>
+    if (products.length != 0) {
+        let total = 0;
+        products.forEach(product => {
+            total += product?.salePrice * product?.orderQuantity;
+        })
+        return (
+            <>
+                <div className="checkout-product_container p-4">
+                    <div className="checkout-product_list">
+                        {products.map((product) => {
+                            return (
+                                <div className="checkout-product_item  border-b flex p-2">
+                                    <div className="checkout-product_item__image  mr-2">
+                                        <Image
+                                            className="rounded-md"
+                                            src={'/images/' + product?.image}
+                                            alt="product"
+                                            width={100}
+                                            height={100}
+                                        />
+                                    </div>
+                                    <div className="checkout-product_item__info w-full">
+                                        <h1 className="checkout-product_item__name font-bold">{product?.name}</h1>
+                                        <div className="checkout-product_item__price flex justify-between mt-1 w-full">
+                                            <h2 className="block">Số lượng: <span className="font-bold">{product?.orderQuantity}</span></h2>
+                                            <h2 className="block">Tổng tiền: <span className="font-bold">
+                                                {(product?.salePrice * product?.orderQuantity).toLocaleString('en-US')}đ
+                                            </span></h2>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        )
-                    })}
+                            )
+                        })}
 
-                </div>
-                <div className="checkout-product_total my-2">
-                    <div>
-                        <span className="checkout-product_total__title font-bold">Tổng tiền: </span>
-                        <span className="checkout-product_total__price font-bold text-red-500 text-2xl">
-                            {(total({ products })).toLocaleString('en-US')}đ
-                        </span>
+                    </div>
+                    <div className="checkout-product_total my-2">
+                        <div>
+                            <span className="checkout-product_total__title font-bold">Tổng tiền: </span>
+                            <span className="checkout-product_total__price font-bold text-red-500 text-2xl">
+                                {(total).toLocaleString('en-US')}đ
+                            </span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-        </>
-    )
+            </>
+        )
+    }
+    else
+        return null
 }
 
 
@@ -95,6 +103,16 @@ export default function OrderDetail() {
     }, [order]);
 
     useEffect(() => {
+        if (orderId != null) {
+            fetch(`${Api()}/order-detai/products/order/${orderId}`)
+                .then(response => response.json())
+                .then(data => {
+                    setProducts(data);
+                })
+        }
+    }, [orderId]);
+
+    useEffect(() => {
         if (order?.paymentMethodId != null) {
             fetch(`${Api()}/payment/${order?.paymentMethodId}`)
                 .then(response => response.json())
@@ -103,7 +121,7 @@ export default function OrderDetail() {
                 })
         }
     }, [order]);
-
+    console.log(products)
     return (
         <div className="order-detail">
             {Scrumb()}
@@ -142,7 +160,7 @@ export default function OrderDetail() {
                     </div >
                 </div>
                 <div className="order-detail-list-product w-1/2">
-
+                    {OrderProductDetail({ products })}
                 </div>
             </div>
         </div>

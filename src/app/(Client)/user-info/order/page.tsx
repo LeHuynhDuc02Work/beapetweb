@@ -1,5 +1,7 @@
 'use client'
 import Link from "next/link"
+import Api from "@/app/api";
+import React, { useEffect, useState } from "react";
 
 function Scrumb() {
     const userJSON = localStorage.getItem('user');
@@ -47,17 +49,54 @@ export function UserMenu() {
     )
 }
 
+function OrderList({ orders }) {
+    return (
+        <>
+            {
+                orders.map((order, index) => {
+                    return (
+                        <div className="user-info__order border rounded-md min-w-52 p-2">
+                            <span>
+                                <span className="font-bold">#{index + 1}</span>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                Mã đơn hàng: <Link className="hover:text-blue-300 font-bold text-blue-500" href={"/user-info/order/order-detail/?id=" + order?.id}>#BEAPET{order?.id}</Link>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                Tổng tiền: <span className="font-bold">{order?.totalAmount.toLocaleString('en-US')}đ</span>
+                            </span>
+                        </div >
+                    )
+                })
+            }
+        </>
+    )
+}
+
+
 export default function UserOrder() {
     if (!localStorage.getItem('user')) {
         window.location.href = "/";
     }
+    const userJSON = localStorage.getItem('user');
+    const user = JSON.parse(userJSON);
+    const [orders, setOrders] = useState([]);
+
+    useEffect(() => {
+        fetch(`${Api()}/orders/user/${user?.id}`)
+            .then(response => response.json())
+            .then(data => {
+                setOrders(data);
+            });
+    }, [])
     return (
         <>
             {Scrumb()}
-            <div className="user-info__container flex w-4/5 m-auto  px-5 py-2 border-b min-h-96">
+            <div className="user-info__container flex justify-between w-4/5 m-auto  px-5 py-2 border-b min-h-96">
                 {UserMenu()}
-                <div className="user-info__content">
-
+                <div className="user-info__content w-4/5">
+                    <h1 className="user-info__title font-bold text-3xl text-center block w-full my-5">
+                        DANH SÁCH ĐƠN HÀNG ĐÃ ĐẶT
+                    </h1>
+                    {OrderList({ orders })}
                 </div>
             </div>
         </>

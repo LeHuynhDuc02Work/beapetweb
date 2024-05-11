@@ -8,14 +8,14 @@ import 'swiper/css/pagination';
 function Slide() {
     return (
         <div className='img'>
-            <img src="https://img6.thuthuatphanmem.vn/uploads/2022/01/27/anh-thu-cung-cute_014114596.jpg" alt="anh slider" />
+            <img style={{ width: "100%" }} src="/images/slider1.jpg" alt="anh slider" />
         </div>
     );
 }
 function Slide1() {
     return (
         <div className='img'>
-            <img src="http://anhdepbonphuong.com/wp-content/uploads/2016/02/tai-10hinh-thu-cung-de-thuong-nhat-lam-hinh-nen-may-tinh-2.jpg" alt="anh slider" />
+            <img style={{ width: "100%" }} src="/images/slider2.jpg" alt="anh slider" />
         </div>
     );
 }
@@ -23,10 +23,11 @@ function Slide1() {
 function Slide2() {
     return (
         <div className='img'>
-            <img src="http://anhdepbonphuong.com/wp-content/uploads/2016/02/tai-10hinh-thu-cung-de-thuong-nhat-lam-hinh-nen-may-tinh-2.jpg" alt="anh slider" />
+            <img style={{ width: "100%" }} src="/images/slider3.jpg" alt="anh slider" />
         </div>
     );
 }
+
 
 export default function Slider() {
     return (

@@ -11,21 +11,16 @@ export const metadata: Metadata = {
     icons: "/images/Beapet.png",
 };
 
-export default function AdminLayout({
+export default function AdminLoginLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
+        <html lang="en" className="  bg-blue-50">
             <body className={inter.className}>
-                <div className="admin flex">
-                    <div className="admin__sidebar w-1/4 p-5">
-                        <Sidebar />
-                    </div>
-                    <div className="admin__content w-full">
-                        {children}
-                    </div>
+                <div className="admin__content border w-1/3 m-auto mt-10">
+                    {children}
                 </div>
             </body>
         </html>

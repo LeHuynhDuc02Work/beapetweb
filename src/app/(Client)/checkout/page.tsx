@@ -189,45 +189,51 @@ export default function Checkout() {
                         <div className="checkout-address__content my-4">
                             <div className="checkout-address__content-container">
                                 <div className="checkout-address__content-title">Địa chỉ nhận hàng</div>
-                                <Dropdown>
-                                    <DropdownTrigger>
-                                        <Button
-                                            variant="bordered"
-                                            className="capitalize  border  p-2 mx-2"
+                                {(addresses.length == 0) ? (
+                                    <Link className="hover:text-blue-300 text-blue-500 font-bold" href={"/user-info/order-address/create"}>
+                                        Thêm địa chỉ nhận hàng!
+                                    </Link>
+                                ) : (
+                                    <Dropdown>
+                                        <DropdownTrigger>
+                                            <Button
+                                                variant="bordered"
+                                                className="capitalize  border  p-2 mx-2"
+                                            >
+                                                {AddressHandle({ addressSelection })}
+                                            </Button>
+                                        </DropdownTrigger>
+                                        <DropdownMenu
+                                            className="bg-gray-50"
+                                            aria-label="Single selection example"
+                                            variant="flat"
+                                            disallowEmptySelection
+                                            selectionMode="single"
                                         >
-                                            {AddressHandle({ addressSelection })}
-                                        </Button>
-                                    </DropdownTrigger>
-                                    <DropdownMenu
-                                        className="bg-gray-50"
-                                        aria-label="Single selection example"
-                                        variant="flat"
-                                        disallowEmptySelection
-                                        selectionMode="single"
-                                    >
-                                        {addresses.map((address, index) => {
-                                            return (
-                                                <DropdownItem
-                                                    className="hover:text-blue-300 cursor-pointer border p-2"
-                                                    onClick={
-                                                        e => {
-                                                            setAddressSelection(address);
+                                            {addresses.map((address, index) => {
+                                                return (
+                                                    <DropdownItem
+                                                        className="hover:text-blue-300 cursor-pointer border p-2"
+                                                        onClick={
+                                                            e => {
+                                                                setAddressSelection(address);
+                                                            }
                                                         }
-                                                    }
-                                                    key="Mặc định">
-                                                    <div className="address-customer">
-                                                        <h1 className="address-customer__name">Tên người nhận: <span className="font-bold">{address?.nameCustomer}</span></h1>
-                                                        <h1 className="address-customer__phone">Số điện thoại: <span className="font-bold">{address?.phone}</span></h1>
-                                                        <h1 className="address-customer__address">Địa chỉ:
-                                                            <span className="font-bold">
-                                                                {address?.address}
-                                                            </span></h1>
-                                                    </div>
-                                                </DropdownItem>
-                                            )
-                                        })}
-                                    </DropdownMenu>
-                                </Dropdown>
+                                                        key="Mặc định">
+                                                        <div className="address-customer">
+                                                            <h1 className="address-customer__name">Tên người nhận: <span className="font-bold">{address?.nameCustomer}</span></h1>
+                                                            <h1 className="address-customer__phone">Số điện thoại: <span className="font-bold">{address?.phone}</span></h1>
+                                                            <h1 className="address-customer__address">Địa chỉ:
+                                                                <span className="font-bold">
+                                                                    {address?.address}
+                                                                </span></h1>
+                                                        </div>
+                                                    </DropdownItem>
+                                                )
+                                            })}
+                                        </DropdownMenu>
+                                    </Dropdown>
+                                )}
                             </div>
                         </div>
 

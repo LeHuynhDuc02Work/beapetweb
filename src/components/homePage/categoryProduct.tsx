@@ -6,7 +6,7 @@ function Product({ cateId }) {
     const [products, setProducts] = useState([]);
 
     useEffect(() => {
-        fetch(`${Api()}/category/${cateId}/products/?page=1&pageSize=5`)
+        fetch(`${Api()}/category/${cateId}/products/?page=1&pageSize=8`)
             .then(response => response.json())
             .then(product => setProducts(product));
     }, []);

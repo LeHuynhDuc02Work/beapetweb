@@ -70,7 +70,7 @@ export default function UserInfo() {
                 {Scrumb()}
                 <div className="user-info__container flex w-4/5 m-auto  px-5 py-2 border-b min-h-96">
                     {UserInfoMenu()}
-                    <div className="user-info__content px-10">
+                    <div className="user-info__content p-10 border ">
                         {UserInfoItem()}
                     </div>
                 </div>
