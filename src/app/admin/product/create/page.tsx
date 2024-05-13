@@ -1,5 +1,10 @@
-import Link from "next/link"
+"use client"
+import Link from "next/link";
+import Api from "@/app/api";
+import Image from 'next/image';
+import React, { useEffect, useState } from 'react';
 
+import path from "path";
 function Scrumb() {
     return (
         <div className="scrumb py-2 bg-slate-100">
@@ -12,6 +17,29 @@ function Scrumb() {
     )
 }
 function FormCreate() {
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
+    const [detail, setDetail] = useState('');
+    const [salePrice, setSalePrice] = useState(0);
+    const [price, setPrice] = useState(0);
+    const [quantity, setQuantity] = useState(0);
+    const [productCategoryId, setProductCategoryId] = useState(0);
+    const [brandId, setBrandId] = useState(0);
+    const [image, setImage] = useState('');
+    const [filePath, setFilePath] = useState('');
+
+    const [brands, setBrands] = useState([]);
+    const [productCategories, setProductCategories] = useState([]);
+
+    useEffect(() => {
+        fetch(`${Api()}/brands`)
+            .then(response => response.json())
+            .then(brands => setBrands(brands));
+        fetch(`${Api()}/categories`)
+            .then(response => response.json())
+            .then(categories => setProductCategories(categories));
+    }, [])
+
     return (
         <form>
             <div className="space-y-12">
@@ -27,6 +55,8 @@ function FormCreate() {
                                     id="name"
                                     name="name"
                                     type="text"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
                                     className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
@@ -40,6 +70,8 @@ function FormCreate() {
                                 <textarea
                                     id="description"
                                     name="description"
+                                    value={description}
+                                    onChange={(e) => setDescription(e.target.value)}
                                     rows={3}
                                     className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     defaultValue={''}
@@ -55,6 +87,8 @@ function FormCreate() {
                                 <input
                                     id="detail"
                                     name="detail"
+                                    value={detail}
+                                    onChange={(e) => setDetail(e.target.value)}
                                     type="text"
                                     className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
@@ -69,6 +103,13 @@ function FormCreate() {
                                 <input
                                     id="quantity"
                                     name="quantity"
+                                    value={quantity}
+                                    onChange={(e) => {
+                                        if (isNaN(parseInt(e.target.value)) || parseInt(e.target.value) < 0)
+                                            setQuantity(0)
+                                        else
+                                            setQuantity(Number(e.target.value))
+                                    }}
                                     type="number"
                                     className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
@@ -83,6 +124,13 @@ function FormCreate() {
                                 <input
                                     id="price"
                                     name="price"
+                                    value={price}
+                                    onChange={(e) => {
+                                        if (isNaN(parseInt(e.target.value)) || parseInt(e.target.value) < 0)
+                                            setPrice(1)
+                                        else
+                                            setPrice(Number(e.target.value))
+                                    }}
                                     type="number"
                                     className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
@@ -97,6 +145,13 @@ function FormCreate() {
                                 <input
                                     id="salePrice"
                                     name="salePrice"
+                                    value={salePrice}
+                                    onChange={(e) => {
+                                        if (isNaN(parseInt(e.target.value)) || parseInt(e.target.value) < 0)
+                                            setSalePrice(1)
+                                        else
+                                            setSalePrice(Number(e.target.value))
+                                    }}
                                     type="number"
                                     className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
@@ -114,9 +169,16 @@ function FormCreate() {
                                     autoComplete="brand-name"
                                     className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                 >
-                                    <option>No brand</option>
-                                    <option>PetYeu</option>
-                                    <option>Yummi</option>
+                                    {brands.map((brand) => {
+                                        return (
+                                            <option
+                                                onClick={
+                                                    () => setBrandId(brand.id)
+                                                }
+                                            >{brand?.name}</option>
+                                        )
+                                    })}
+
                                 </select>
                             </div>
                         </div>
@@ -132,9 +194,15 @@ function FormCreate() {
                                     autoComplete="category-name"
                                     className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                 >
-                                    <option>Chó cưng</option>
-                                    <option>Mèo cưng</option>
-                                    <option>Đồ ăn</option>
+                                    {productCategories.map((category) => {
+                                        return (
+                                            <option
+                                                onClick={
+                                                    () => setBrandId(category.id)
+                                                }
+                                            >{category?.name}</option>
+                                        )
+                                    })}
                                 </select>
                             </div>
                         </div>
@@ -144,13 +212,20 @@ function FormCreate() {
                             </label>
                             <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                                 <div className="text-center">
+                                    <div>{image}</div>
                                     <div className="mt-4 flex text-sm leading-6 text-gray-600">
                                         <label
                                             htmlFor="file-upload"
                                             className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
                                         >
                                             <span>Upload a file</span>
-                                            <input id="file-upload" name="file-upload" type="file" className="sr-only" />
+                                            <input id="file-upload"
+                                                onChange={(e) => {
+                                                    const fileInput = document.getElementById('file-upload');
+                                                    setImage(fileInput?.files[0].name);
+                                                    setFilePath(fileInput?.value);
+                                                }}
+                                                name="file-upload" type="file" className="sr-only" />
                                         </label>
                                         <p className="pl-1">or drag and drop</p>
                                     </div>

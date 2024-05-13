@@ -12,7 +12,7 @@ function handlUser() {
         return (
             <div className="header-main__action__item__text text-sm">
                 <Link className="hover:text-blue-300" href={"/user-info"}>{user?.userName}</Link><br></br>
-                <a onClick={() => localStorage.removeItem('user')} className="hover:text-blue-300" href="/">Logout</a>
+                <a onClick={() => localStorage.removeItem('user')} className="hover:text-blue-300" href="/">Đăng xuất</a>
             </div>
         )
     } else
