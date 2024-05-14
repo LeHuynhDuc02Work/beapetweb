@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from "next/link";
 import Api from "@/app/api";
-import Image from 'next/image'
+import apiImage from '@/app/apiImage';
 function Product({ cateId }) {
     const [products, setProducts] = useState([]);
 
@@ -20,8 +20,8 @@ function Product({ cateId }) {
                         query: { id: `${product.id}` },
                     }}>
                         <div className="product-item__image">
-                            <Image
-                                src={'/images/' + product.image}
+                            <img
+                                src={apiImage() + product.image}
                                 className="w-full"
                                 width={500}
                                 height={500}

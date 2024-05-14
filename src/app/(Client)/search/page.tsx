@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/dropdown";
 import { Button } from "@nextui-org/button";
 import Api from "@/app/api";
-import Image from 'next/image'
+import apiImage from "@/app/apiImage";
 function Scrumb() {
     return (
         <div className="scrumb py-2 bg-slate-100">
@@ -42,9 +42,9 @@ function Product({ keyWord, sort }) {
                             }}
                             >
                                 <div className="product-item__image">
-                                    <Image
+                                    <img
                                         className="w-full"
-                                        src={'/images/' + product.image}
+                                        src={apiImage() + product.image}
                                         width={200}
                                         height={200}
                                         alt="Picture of the author"

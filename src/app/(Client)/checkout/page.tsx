@@ -4,9 +4,9 @@ import React, { useEffect, useState } from 'react';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/dropdown";
 import { Button } from "@nextui-org/button";
 import Api from "@/app/api";
-import Image from 'next/image'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import apiImage from "@/app/apiImage";
 
 function Scrumb() {
 
@@ -79,9 +79,9 @@ function CheckoutProduct({ products }) {
                         return (
                             <div className="checkout-product_item  border-b flex p-2">
                                 <div className="checkout-product_item__image  mr-2">
-                                    <Image
-                                        className="rounded-md"
-                                        src={'/images/' + product?.image}
+                                    <img
+                                        className="rounded-md h-20"
+                                        src={apiImage() + product?.image}
                                         alt="product"
                                         width={100}
                                         height={100}

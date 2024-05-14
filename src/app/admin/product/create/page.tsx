@@ -1,7 +1,8 @@
 "use client"
 import Link from "next/link";
 import Api from "@/app/api";
-import Image from 'next/image';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import React, { useEffect, useState } from 'react';
 
 import path from "path";
@@ -166,16 +167,13 @@ function FormCreate() {
                                 <select
                                     id="brand"
                                     name="brand"
+                                    onChange={(e) => setBrandId(e.target.value)}
                                     autoComplete="brand-name"
                                     className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                 >
                                     {brands.map((brand) => {
                                         return (
-                                            <option
-                                                onClick={
-                                                    () => setBrandId(brand.id)
-                                                }
-                                            >{brand?.name}</option>
+                                            <option value={brand.id}>{brand?.name}</option>
                                         )
                                     })}
 
@@ -191,16 +189,13 @@ function FormCreate() {
                                 <select
                                     id="category"
                                     name="category"
+                                    onChange={(e) => setProductCategoryId(e.target.value)}
                                     autoComplete="category-name"
                                     className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                 >
                                     {productCategories.map((category) => {
                                         return (
-                                            <option
-                                                onClick={
-                                                    () => setBrandId(category.id)
-                                                }
-                                            >{category?.name}</option>
+                                            <option value={category.id}>{category?.name}</option>
                                         )
                                     })}
                                 </select>
@@ -223,7 +218,7 @@ function FormCreate() {
                                                 onChange={(e) => {
                                                     const fileInput = document.getElementById('file-upload');
                                                     setImage(fileInput?.files[0].name);
-                                                    setFilePath(fileInput?.value);
+                                                    setFilePath(fileInput?.files[0]);
                                                 }}
                                                 name="file-upload" type="file" className="sr-only" />
                                         </label>
@@ -240,11 +235,57 @@ function FormCreate() {
 
             <div className="mt-6 flex items-center justify-end gap-x-6 pb-4">
                 <button
-                    type="submit"
+                    type="button"
                     className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    onClick={async () => {
+                        const response = await fetch(`https://localhost:7012/api/BeaShop/product/create`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                name: name,
+                                description: description,
+                                price: price,
+                                salePrice: salePrice,
+                                brandId: brandId,
+                                detail: detail,
+                                productCategoryId: productCategoryId,
+                                quantity: quantity,
+                                image: image,
+                            })
+                        })
+
+                        if (response.ok) {
+                            const showToastMessage = () => {
+                                toast.success("Đã thêm sản phẩm thành công!", {
+                                    position: toast?.POSITION?.TOP_RIGHT,
+                                });
+                            };
+                            showToastMessage();
+                            if (filePath != null) {
+                                const formData = new FormData();
+                                formData.append('fileImage', filePath);
+                                fetch("https://localhost:7012/api/BeaShop/upload", {
+                                    method: 'POST',
+                                    body: formData,
+                                })
+                            }
+
+                        }
+                        else {
+                            const showToastMessage = () => {
+                                toast.error("Có lỗi xảy ra!", {
+                                    position: toast?.POSITION?.TOP_RIGHT,
+                                });
+                            };
+                            showToastMessage();
+                        }
+                    }}
                 >
                     Create
                 </button>
+                <ToastContainer />
             </div>
         </form >
     )

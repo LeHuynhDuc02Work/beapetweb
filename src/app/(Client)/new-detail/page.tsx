@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useEffect, useState } from 'react';
 import Api from "@/app/api";
-import Image from "next/image";
+import apiImage from "@/app/apiImage";
 
 function Scrumb() {
     return (
@@ -31,9 +31,9 @@ function newItem({ id }) {
                         return (
                             <div className="new__item w-1/5 m-2 border">
                                 <div className="new-item__image">
-                                    <Image
+                                    <img
                                         className="w-full"
-                                        src={'/images/' + newItem.image}
+                                        src={apiImage() + newItem.image}
                                         alt="anh tin tuc"
                                         width={200}
                                         height={200}
@@ -91,9 +91,9 @@ export default function NewDetail() {
                 <h1 className="new-detail__title text-center text-2xl font-bold m-3">{newData?.title}</h1>
                 <div className="new-detail__content">
                     <div className="new-detail__image w-2/3 mx-auto my-5">
-                        <Image
+                        <img
                             className="w-full  rounded-md"
-                            src={'/images/' + newData?.image}
+                            src={apiImage() + newData?.image}
                             width={200}
                             height={200}
                             alt="anh tin tuc"

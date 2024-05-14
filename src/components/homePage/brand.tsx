@@ -7,7 +7,7 @@ import 'swiper/css/pagination';
 import React, { useEffect, useState } from 'react';
 import Link from "next/link";
 import Api from "@/app/api";
-import Image from 'next/image'
+import apiImage from '@/app/apiImage';
 
 function brand() {
     const [brands, setBrands] = useState([]);
@@ -39,8 +39,9 @@ function brand() {
                         }}
                     >
                         <div className='img'>
-                            <Image
-                                src={'/images/' + brand.image}
+                            <img
+                                className='h-40'
+                                src={apiImage() + brand.image}
                                 alt="anh brand"
                                 width={200}
                                 height={200}

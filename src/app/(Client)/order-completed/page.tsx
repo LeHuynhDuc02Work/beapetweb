@@ -1,5 +1,4 @@
 'use client'
-import Image from "next/image"
 import Link from "next/link"
 import React, { useEffect, useState } from 'react';
 export default function OrderCompleted() {
@@ -20,7 +19,7 @@ export default function OrderCompleted() {
                     Xem chi tiết đơn hàng đơn hàng
                 </Link>
             </div>
-            <Image
+            <img
                 className="mx-auto"
                 src="/images/thanks.jpg"
                 alt="order-completed"
@@ -28,7 +27,7 @@ export default function OrderCompleted() {
                 height={600}
             >
 
-            </Image>
+            </img>
         </div >
     )
 }

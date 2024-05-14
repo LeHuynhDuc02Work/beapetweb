@@ -2,7 +2,6 @@
 import Link from "next/link"
 import React, { useEffect, useState } from 'react';
 import Api from "@/app/api";
-import Image from 'next/image'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, Pagination, A11y } from 'swiper/modules';
 import { ToastContainer, toast } from 'react-toastify';
@@ -11,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import apiImage from "@/app/apiImage";
 
 function Scrumb() {
     return (
@@ -77,9 +77,9 @@ function ProductDetailItem({ product, brand }) {
             <>
                 <div className="product-detail__left w-1/2 p-2">
                     <div className="product-detail__image">
-                        <Image
+                        <img
                             className="w-full rounded-lg"
-                            src={'/images/' + product?.image}
+                            src={apiImage() + product?.image}
                             width={500}
                             height={500}
                             alt="Picture of the author"
@@ -171,9 +171,9 @@ function RelatedProduct({ id, brand }) {
                                             href={`/product-detail?id=${productItem?.id}`}
                                         >
                                             <div className="product-item__image">
-                                                <Image
+                                                <img
                                                     className="w-full"
-                                                    src={'/images/' + productItem?.image}
+                                                    src={apiImage() + productItem?.image}
                                                     alt="anh san pham"
                                                     width={200}
                                                     height={200}

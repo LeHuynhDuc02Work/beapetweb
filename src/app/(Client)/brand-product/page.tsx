@@ -5,7 +5,6 @@ import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-o
 import { Button } from "@nextui-org/button";
 import Api from "@/app/api";
 import apiImage from "@/app/apiImage";
-import Image from 'next/image'
 function Scrumb({ brand }) {
 
     return (
@@ -40,7 +39,7 @@ function Product({ id, sort }) {
                             }}
                             >
                                 <div className="product-item__image">
-                                    <Image
+                                    <img
                                         className="w-full"
                                         src={apiImage() + product.image}
                                         width={200}

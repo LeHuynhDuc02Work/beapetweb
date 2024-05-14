@@ -1,8 +1,8 @@
 'use client'
 import Link from "next/link"
-import Image from "next/image"
 import React, { useEffect, useState } from 'react';
 import Api from "@/app/api";
+import apiImage from "@/app/apiImage";
 function Scrumb() {
 
     return (
@@ -31,9 +31,9 @@ function OrderProductDetail({ products }) {
                             return (
                                 <div className="checkout-product_item  border-b flex p-2">
                                     <div className="checkout-product_item__image  mr-2">
-                                        <Image
-                                            className="rounded-md"
-                                            src={'/images/' + product?.image}
+                                        <img
+                                            className="rounded-md h-20"
+                                            src={apiImage() + product?.image}
                                             alt="product"
                                             width={100}
                                             height={100}

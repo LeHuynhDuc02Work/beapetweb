@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React, { useEffect, useState } from 'react';
 import Api from "@/app/api";
-import Image from 'next/image'
+import apiImage from "@/app/apiImage";
 
 function newItem() {
     const [news, setNews] = useState([]);
@@ -17,9 +17,9 @@ function newItem() {
                 news.map((newItem) => (
                     <div className="new__item w-1/5 m-2 border">
                         <div className="new-item__image">
-                            <Image
+                            <img
                                 className="w-full"
-                                src={'/images/' + newItem.image}
+                                src={apiImage() + newItem.image}
                                 alt="anh tin tuc"
                                 width={200}
                                 height={200}

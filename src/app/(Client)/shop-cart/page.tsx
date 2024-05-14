@@ -2,9 +2,9 @@
 import Link from "next/link"
 import React, { useEffect, useState } from 'react';
 import Api from "@/app/api";
-import Image from 'next/image'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import apiImage from "@/app/apiImage";
 function Scrumb() {
     return (
         <div className="scrumb py-2 bg-slate-100">
@@ -76,9 +76,9 @@ function ShopCartItem({ products }) {
                             <div className="shop-cart__item border-b w-11/12 flex py-5">
                                 <div className="shop-cart__item-image mr-4">
                                     <Link href={"/product-detail/?id=" + product?.id} aria-label="san pham 1" className="">
-                                        <Image
-                                            className="rounded-md h-full w-full"
-                                            src={'/images/' + product?.image}
+                                        <img
+                                            className="rounded-md h-32"
+                                            src={apiImage() + product?.image}
                                             alt="anh san pham"
                                             width={200}
                                             height={200}
