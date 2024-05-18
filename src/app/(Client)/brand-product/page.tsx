@@ -101,8 +101,10 @@ export default function CategoryProduct() {
             {Scrumb({ brand })}
             <div className="search-product__header flex justify-between m-4">
                 <div className="search-product__title">
-                    <h1 className="text-3xl font-bold">Danh mục {brand?.name}</h1>
+                    <h1 className="text-3xl font-bold">Thương hiệu {brand?.name}</h1>
                 </div>
+
+                
                 <div className="search-product__filter">
                     <span className="font-bold">Filter:</span>
                     <div className="search-product__filter inline-block">
