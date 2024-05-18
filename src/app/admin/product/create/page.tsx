@@ -33,10 +33,10 @@ function FormCreate() {
     const [productCategories, setProductCategories] = useState([]);
 
     useEffect(() => {
-        fetch(`${Api()}/brands`)
+        fetch(`${Api()}/brands/?pageSize=50`)
             .then(response => response.json())
             .then(brands => setBrands(brands));
-        fetch(`${Api()}/categories`)
+        fetch(`${Api()}/categories/?pageSize=50`)
             .then(response => response.json())
             .then(categories => setProductCategories(categories));
     }, [])
@@ -238,48 +238,58 @@ function FormCreate() {
                     type="button"
                     className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     onClick={async () => {
-                        const response = await fetch(`https://localhost:7012/api/BeaShop/product/create`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                name: name,
-                                description: description,
-                                price: price,
-                                salePrice: salePrice,
-                                brandId: brandId,
-                                detail: detail,
-                                productCategoryId: productCategoryId,
-                                quantity: quantity,
-                                image: image,
-                            })
-                        })
-
-                        if (response.ok) {
+                        if (name == "") {
                             const showToastMessage = () => {
-                                toast.success("Đã thêm sản phẩm thành công!", {
+                                toast.error("Tên sản phẩm không được để trống!!", {
                                     position: toast?.POSITION?.TOP_RIGHT,
                                 });
                             };
                             showToastMessage();
-                            if (filePath != null) {
-                                const formData = new FormData();
-                                formData.append('fileImage', filePath);
-                                fetch("https://localhost:7012/api/BeaShop/upload", {
-                                    method: 'POST',
-                                    body: formData,
-                                })
-                            }
-
                         }
                         else {
-                            const showToastMessage = () => {
-                                toast.error("Có lỗi xảy ra!", {
-                                    position: toast?.POSITION?.TOP_RIGHT,
-                                });
-                            };
-                            showToastMessage();
+                            const response = await fetch(`https://localhost:7012/api/BeaShop/product/create`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    name: name,
+                                    description: description,
+                                    price: price,
+                                    salePrice: salePrice,
+                                    brandId: brandId,
+                                    detail: detail,
+                                    productCategoryId: productCategoryId,
+                                    quantity: quantity,
+                                    image: image,
+                                })
+                            })
+
+                            if (response.ok) {
+                                const showToastMessage = () => {
+                                    toast.success("Đã thêm sản phẩm thành công!", {
+                                        position: toast?.POSITION?.TOP_RIGHT,
+                                    });
+                                };
+                                showToastMessage();
+                                if (filePath != null) {
+                                    const formData = new FormData();
+                                    formData.append('fileImage', filePath);
+                                    fetch("https://localhost:7012/api/BeaShop/upload", {
+                                        method: 'POST',
+                                        body: formData,
+                                    })
+                                }
+
+                            }
+                            else {
+                                const showToastMessage = () => {
+                                    toast.error("Có lỗi xảy ra!", {
+                                        position: toast?.POSITION?.TOP_RIGHT,
+                                    });
+                                };
+                                showToastMessage();
+                            }
                         }
                     }}
                 >

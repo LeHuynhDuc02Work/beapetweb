@@ -3,8 +3,6 @@ import Link from "next/link";
 import Api from "@/app/api";
 import React, { useEffect, useState } from 'react';
 import apiImage from "@/app/apiImage";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 export default function Admin() {
     if (!localStorage.getItem('user')) {

@@ -14,10 +14,12 @@ function Product() {
         <>
             {data.map((product) => (
                 <div className="product-item border w-1/5 m-2" >
-                    <Link href={{
-                        pathname: '/product-detail',
-                        query: { id: `${product.id}` },
-                    }}>
+                    <Link
+                        className='h-full'
+                        href={{
+                            pathname: '/product-detail',
+                            query: { id: `${product.id}` },
+                        }}>
                         <div className="product-item__image">
                             <img
                                 src={apiImage() + product.image}
@@ -29,10 +31,9 @@ function Product() {
                         </div>
                         <div className="product-item__info w-4/5 mx-auto">
                             <h1 className="product-item__info__name text-xl font-medium my-5">{product.name}</h1>
-                            <div className="product-item__price flex justify-between">
+                            <div className="product-item__price flex justify-between items-between">
                                 <h1 className="product-item__info__newPrice font-bold leading-4 my-2 text-blue-300">
                                     {(product.salePrice).toLocaleString('en-US')}đ
-
                                 </h1>
                                 <h1 className="product-item__info__price line-through font-bold leading-4 my-2 text-red-500">
                                     {(product.price).toLocaleString('en-US')}đ

@@ -12,7 +12,7 @@ function Scrumb() {
             <p className="px-5 font-medium">
                 <Link className="hover:text-blue-300" href="/admin">Dashboard</Link> /
                 <Link className="hover:text-blue-300" href="/admin/category">Category</Link> /
-                <span className="font-bold">Create</span>
+                <span className="font-bold">Edit</span>
             </p>
         </div>
     )
@@ -135,7 +135,7 @@ function FormEdit() {
                         }
                     }}
                 >
-                    Create
+                    Save
                 </button>
                 <ToastContainer />
             </div>

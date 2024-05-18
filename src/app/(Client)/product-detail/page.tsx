@@ -61,8 +61,19 @@ async function AddShopcartHanlde({ product, quantity }) {
 }
 
 function ProductDetailItem({ product, brand }) {
-
+    const [reviews, setReviews] = useState([]);
+    const [review, setReview] = useState('');
     const [quantity, setQuantity] = useState(1);
+
+    const userJSON = localStorage.getItem('user');
+    const user = JSON.parse(userJSON);
+    useEffect(() => {
+        if (product != null) {
+            fetch(`${Api()}/reviews/product/${product?.id}`)
+                .then(response => response.json())
+                .then(data => setReviews(data));
+        }
+    }, [product])
     useEffect(() => {
         if (quantity <= 0 || isNaN(quantity)) {
             setQuantity(1);
@@ -128,6 +139,51 @@ function ProductDetailItem({ product, brand }) {
                                 Thêm vào giỏ hàng
                             </button>
                             <ToastContainer />
+                        </div>
+                    </div>
+                    <div className="product-detail__reviews my-4">
+                        <h1 className="font-bold">Bình luận</h1>
+                        <div className="py-2 border-b">
+                            <form
+                                onSubmit={
+                                    (e) => { e.preventDefault(); }}
+                            >
+                                <input className="border p-2 w-full rounded-md" placeholder="Nhập bình luận..." type="text" value={review} onChange={(e) => setReview(e.target.value)} />
+                                <button
+                                    type="submit"
+                                    className="btn btn-primary text-white font-bold  bg-blue-500 hover:text-black hover:bg-blue-400 p-2 rounded-md m-right my-1"
+                                    onClick={() => {
+                                        if (user == null) {
+                                            window.location.href = "/login";
+                                        }
+                                        else {
+                                            fetch(`${Api()}/review/create`, {
+                                                method: 'POST',
+                                                headers: {
+                                                    'Content-Type': 'application/json',
+                                                },
+                                                body: JSON.stringify({ productId: product?.id, content: review, UserId: user.id }),
+                                            });
+
+                                            setReview('');
+                                            window.location.reload();
+                                        }
+                                    }}
+                                >
+                                    Send
+                                </button>
+                            </form>
+                        </div>
+                        <div>
+                            {
+                                reviews.map((review) => {
+                                    return (
+                                        <div className="py-2">
+                                            <p><span className="font-bold">{review?.userName}:</span> {review?.content}</p>
+                                        </div>
+                                    )
+                                })
+                            }
                         </div>
                     </div>
                 </div>

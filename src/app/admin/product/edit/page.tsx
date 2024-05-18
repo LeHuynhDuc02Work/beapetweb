@@ -5,26 +5,19 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import React, { useEffect, useState } from 'react';
 
-import path from "path";
 function Scrumb() {
     return (
         <div className="scrumb py-2 bg-slate-100">
             <p className="px-5 font-medium">
                 <Link className="hover:text-blue-300" href="/admin">Dashboard</Link> /
                 <Link className="hover:text-blue-300" href="/admin/product">Product</Link> /
-                <span className="font-bold">Create</span>
+                <span className="font-bold">Edit</span>
             </p>
         </div>
     )
 }
 function FormCreate() {
     const [id, setId] = useState(null);
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            const _id = window.location.search.replace('?', '').split('&')[0].split('=')[1];
-            setId(_id);
-        }
-    }, [id]);
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [detail, setDetail] = useState('');
@@ -34,16 +27,42 @@ function FormCreate() {
     const [productCategoryId, setProductCategoryId] = useState(0);
     const [brandId, setBrandId] = useState(0);
     const [image, setImage] = useState('');
-    const [filePath, setFilePath] = useState('');
-
+    const [filePath, setFilePath] = useState('');//
+    const [product, setProduct] = useState(null);
     const [brands, setBrands] = useState([]);
     const [productCategories, setProductCategories] = useState([]);
 
     useEffect(() => {
-        fetch(`${Api()}/brands`)
+        if (typeof window !== 'undefined') {
+            const _id = window.location.search.replace('?', '').split('&')[0].split('=')[1];
+            setId(_id);
+        }
+    }, [id]);
+
+    useEffect(() => {
+        fetch(`${Api()}/product/${id}`)
+            .then(response => response.json())
+            .then(data => {
+                setProduct(product)
+                setName(data.name)
+                setDescription(data.description)
+                setDetail(data.detail)
+                setSalePrice(data.salePrice)
+                setPrice(data.price)
+                setQuantity(data.quantity)
+                setProductCategoryId(data.productCategoryId)
+                setBrandId(data.brandId)
+                setImage(data.image)
+            }
+            );
+    }, [id]);
+
+
+    useEffect(() => {
+        fetch(`${Api()}/brands/?pageSize=50`)
             .then(response => response.json())
             .then(brands => setBrands(brands));
-        fetch(`${Api()}/categories`)
+        fetch(`${Api()}/categories/?pageSize=50`)
             .then(response => response.json())
             .then(categories => setProductCategories(categories));
     }, [])
@@ -175,6 +194,7 @@ function FormCreate() {
                                     id="brand"
                                     name="brand"
                                     onChange={(e) => setBrandId(e.target.value)}
+                                    value={brandId}
                                     autoComplete="brand-name"
                                     className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                 >
@@ -197,6 +217,7 @@ function FormCreate() {
                                     id="category"
                                     name="category"
                                     onChange={(e) => setProductCategoryId(e.target.value)}
+                                    value={productCategoryId}
                                     autoComplete="category-name"
                                     className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                 >
@@ -245,45 +266,55 @@ function FormCreate() {
                     type="button"
                     className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     onClick={async () => {
-                        const response = await fetch(`https://localhost:7012/api/BeaShop/product/update/${id}`, {
-                            method: 'PuT',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                name: name,
-                                description: description,
-                                price: price,
-                                salePrice: salePrice,
-                                brandId: brandId,
-                                detail: detail,
-                                productCategoryId: productCategoryId,
-                                quantity: quantity,
-                                image: image,
-                            })
-                        })
-
-                        if (response.ok) {
+                        if (name === "") {
                             const showToastMessage = () => {
-                                toast.success("Đã sửa sản phẩm thành công!", {
+                                toast.error("Tên sản phẩm không được để trống!", {
                                     position: toast?.POSITION?.TOP_RIGHT,
                                 });
                             };
                             showToastMessage();
-                            const formData = new FormData();
-                            formData.append('fileImage', filePath);
-                            fetch("https://localhost:7012/api/BeaShop/upload", {
-                                method: 'POST',
-                                body: formData,
-                            })
                         }
                         else {
-                            const showToastMessage = () => {
-                                toast.error("Có lỗi xảy ra!", {
-                                    position: toast?.POSITION?.TOP_RIGHT,
-                                });
-                            };
-                            showToastMessage();
+                            const response = await fetch(`https://localhost:7012/api/BeaShop/product/update/${id}`, {
+                                method: 'PuT',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    name: name,
+                                    description: description,
+                                    price: price,
+                                    salePrice: salePrice,
+                                    brandId: brandId,
+                                    detail: detail,
+                                    productCategoryId: productCategoryId,
+                                    quantity: quantity,
+                                    image: image,
+                                })
+                            })
+
+                            if (response.ok) {
+                                const showToastMessage = () => {
+                                    toast.success("Đã sửa sản phẩm thành công!", {
+                                        position: toast?.POSITION?.TOP_RIGHT,
+                                    });
+                                };
+                                showToastMessage();
+                                const formData = new FormData();
+                                formData.append('fileImage', filePath);
+                                fetch("https://localhost:7012/api/BeaShop/upload", {
+                                    method: 'POST',
+                                    body: formData,
+                                })
+                            }
+                            else {
+                                const showToastMessage = () => {
+                                    toast.error("Có lỗi xảy ra!", {
+                                        position: toast?.POSITION?.TOP_RIGHT,
+                                    });
+                                };
+                                showToastMessage();
+                            }
                         }
                     }}
                 >

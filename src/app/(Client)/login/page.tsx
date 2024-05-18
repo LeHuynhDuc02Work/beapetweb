@@ -36,14 +36,24 @@ async function handleLogin({ email, password }) {
                     showToastMessage();
                 }
                 else {
-                    const showToastMessage = () => {
-                        toast.success("Đăng nhập thành công!", {
-                            position: toast?.POSITION?.TOP_RIGHT,
-                        });
-                    };
-                    showToastMessage();
-                    localStorage.setItem('user', JSON.stringify(data));
-                    window.location.href = "/";
+                    if (data?.status == "Đã khóa") {
+                        const showToastMessage = () => {
+                            toast.error("Tài khoản đã bị khóa vui lòng liên hệ Admin", {
+                                position: toast?.POSITION?.TOP_RIGHT,
+                            });
+                        };
+                        showToastMessage();
+                    }
+                    else {
+                        const showToastMessage = () => {
+                            toast.success("Đăng nhập thành công!", {
+                                position: toast?.POSITION?.TOP_RIGHT,
+                            });
+                        };
+                        showToastMessage();
+                        localStorage.setItem('user', JSON.stringify(data));
+                        window.location.href = "/";
+                    }
                 }
             }
         }
