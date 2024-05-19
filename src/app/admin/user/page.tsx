@@ -15,6 +15,7 @@ function Scrumb() {
 }
 
 function UserItem({ users }) {
+
     if (users.length > 0)
         return (
             <>
@@ -87,8 +88,8 @@ export default function Product() {
     if (localStorage.getItem('user') == null) {
         window.location.href = '/login-admin';
     }
-    const [users, setUsers] = useState([]);
     const [search, setSearch] = useState('');
+    const [users, setUsers] = useState([]);
 
     useEffect(() => {
         if (search != '') {
@@ -103,9 +104,6 @@ export default function Product() {
         }
 
     }, [search]);
-    useEffect(() => {
-
-    }, [users]);
     return (
         <div className="admin-product">
             {Scrumb()}

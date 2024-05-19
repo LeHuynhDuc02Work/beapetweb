@@ -64,6 +64,7 @@ function ProductDetailItem({ product, brand }) {
     const [reviews, setReviews] = useState([]);
     const [review, setReview] = useState('');
     const [quantity, setQuantity] = useState(1);
+    const [loadReview, setLoadReview] = useState(false);
 
     const userJSON = localStorage.getItem('user');
     const user = JSON.parse(userJSON);
@@ -73,7 +74,14 @@ function ProductDetailItem({ product, brand }) {
                 .then(response => response.json())
                 .then(data => setReviews(data));
         }
-    }, [product])
+    }, [loadReview])
+    useEffect(() => {
+        if (product != null) {
+            fetch(`${Api()}/reviews/product/${product?.id}`)
+                .then(response => response.json())
+                .then(data => setReviews(data));
+        }
+    }, [product, loadReview])
     useEffect(() => {
         if (quantity <= 0 || isNaN(quantity)) {
             setQuantity(1);
@@ -157,16 +165,26 @@ function ProductDetailItem({ product, brand }) {
                                             window.location.href = "/login";
                                         }
                                         else {
-                                            fetch(`${Api()}/review/create`, {
-                                                method: 'POST',
-                                                headers: {
-                                                    'Content-Type': 'application/json',
-                                                },
-                                                body: JSON.stringify({ productId: product?.id, content: review, UserId: user.id }),
-                                            });
+                                            if (review == '') {
+                                                const showToastMessage = () => {
+                                                    toast.warning("Bạn chưa nhập bình luận!", {
+                                                        position: toast?.POSITION?.TOP_RIGHT,
+                                                    });
+                                                };
+                                                showToastMessage();
+                                            }
+                                            else {
+                                                fetch(`${Api()}/review/create`, {
+                                                    method: 'POST',
+                                                    headers: {
+                                                        'Content-Type': 'application/json',
+                                                    },
+                                                    body: JSON.stringify({ productId: product?.id, content: review, UserId: user.id }),
+                                                });
 
-                                            setReview('');
-                                            window.location.reload();
+                                                setReview('');
+                                                setLoadReview(!loadReview);
+                                            }
                                         }
                                     }}
                                 >
@@ -178,7 +196,7 @@ function ProductDetailItem({ product, brand }) {
                             {
                                 reviews.map((review) => {
                                     return (
-                                        <div className="py-2">
+                                        <div className="py-2 px-2">
                                             <p><span className="font-bold">{review?.userName}:</span> {review?.content}</p>
                                         </div>
                                     )

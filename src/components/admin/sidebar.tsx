@@ -54,6 +54,14 @@ function sidebarItem() {
                     </Link>
                 </li>
                 <li className="admin__sidebar-menu-item text-lg hover:bg-gray-100 my-1 rounded-md border">
+                    <Link href="/admin/news" className="admin__sidebar-menu-link flex py-4">
+                        <svg className="admin__sidebar-menu-icon mx-4 mt-1" width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g clip-path="url(#clip0_429_11031)"> <path d="M3 4V18C3 19.1046 3.89543 20 5 20H17H19C20.1046 20 21 19.1046 21 18V8H17" stroke="#292929" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M3 4H17V18C17 19.1046 17.8954 20 19 20V20" stroke="#292929" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M13 8L7 8" stroke="#292929" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M13 12L9 12" stroke="#292929" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path> </g> <defs> <clipPath id="clip0_429_11031"> <rect width="24" height="24" fill="white"></rect> </clipPath> </defs> </g></svg>
+                        <span className="admin__sidebar-menu-text font-bold">
+                            TIN TỨC
+                        </span>
+                    </Link>
+                </li>
+                <li className="admin__sidebar-menu-item text-lg hover:bg-gray-100 my-1 rounded-md border">
                     <button className="admin__sidebar-menu-link flex py-4"
                         onClick={() => {
                             localStorage.removeItem('user');

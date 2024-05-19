@@ -11,7 +11,7 @@ function Scrumb() {
         <div className="scrumb py-2 bg-slate-100">
             <p className="px-5 font-medium">
                 <Link className="hover:text-blue-300" href="/admin">Dashboard</Link> /
-                <Link className="hover:text-blue-300" href="/admin/brand">Brand</Link> /
+                <Link className="hover:text-blue-300" href="/admin/news">News</Link> /
                 <span className="font-bold">Edit</span>
             </p>
         </div>
@@ -19,8 +19,9 @@ function Scrumb() {
 }
 function FormEdit() {
     const [id, setId] = useState(null);
-    const [name, setName] = useState('');
+    const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [detail, setDetail] = useState('');
     const [image, setImage] = useState('');
     const [filePath, setFilePath] = useState('');
 
@@ -31,12 +32,13 @@ function FormEdit() {
         }
     }, [id]);
     useEffect(() => {
-        fetch(`${Api()}/brand/${id}`)
+        fetch(`${Api()}/new/${id}`)
             .then(response => response.json())
-            .then(brand => {
-                setName(brand.name);
-                setDescription(brand.description);
-                setImage(brand.image);
+            .then(news => {
+                setTitle(news.title);
+                setDetail(news.detail);
+                setDescription(news.description);
+                setImage(news.image);
             })
     }, [id]);
 
@@ -49,15 +51,15 @@ function FormEdit() {
 
                         <div className="sm:col-span-4">
                             <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
-                                Tên nhãn hàng
+                                Tiêu đề
                             </label>
                             <div className="mt-2">
                                 <input
                                     id="name"
                                     name="name"
                                     type="text"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
+                                    value={title}
+                                    onChange={(e) => setTitle(e.target.value)}
                                     className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 />
                             </div>
@@ -73,6 +75,23 @@ function FormEdit() {
                                     name="description"
                                     value={description}
                                     onChange={(e) => setDescription(e.target.value)}
+                                    rows={3}
+                                    className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    defaultValue={''}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="col-span-full">
+                            <label htmlFor="detail" className="block text-sm font-medium leading-6 text-gray-900">
+                                Chi tiết
+                            </label>
+                            <div className="mt-2">
+                                <textarea
+                                    id="detail"
+                                    name="detail"
+                                    value={detail}
+                                    onChange={(e) => setDetail(e.target.value)}
                                     rows={3}
                                     className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                     defaultValue={''}
@@ -118,30 +137,31 @@ function FormEdit() {
                     className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     onClick={async () => {
 
-                        if (name == '' || description == '') {
+                        if (title == '' || description == '' || detail == '') {
                             const showToastMessage = () => {
-                                toast.error("Phải nhập tên nhãn hàng và mô tả!", {
+                                toast.error("Phải nhập đầy đủ các trường!", {
                                     position: toast?.POSITION?.TOP_RIGHT,
                                 });
                             };
                             showToastMessage();
                         }
                         else {
-                            const response = await fetch(`https://localhost:7012/api/BeaShop/brand/update/${id}`, {
+                            const response = await fetch(`https://localhost:7012/api/BeaShop/new/update/${id}`, {
                                 method: 'PUT',
                                 headers: {
                                     'Content-Type': 'application/json'
                                 },
                                 body: JSON.stringify({
-                                    name: name,
+                                    title: title,
                                     description: description,
+                                    detail: detail,
                                     image: image,
                                 })
                             })
 
                             if (response.ok) {
                                 const showToastMessage = () => {
-                                    toast.success("Đã sửa nhãn hàng thành công!", {
+                                    toast.success("Đã sửa tin tức thành công!", {
                                         position: toast?.POSITION?.TOP_RIGHT,
                                     });
                                 };
@@ -165,8 +185,6 @@ function FormEdit() {
                                 showToastMessage();
                             }
                         }
-
-
                     }}
                 >
                     Save
@@ -177,9 +195,9 @@ function FormEdit() {
     )
 }
 
-export default function EditBrand() {
+export default function EditNews() {
     return (
-        <div className="edit-brand">
+        <div className="edit-news">
             {Scrumb()}
             <div className="form-edit w-4/5 mx-auto">
                 {FormEdit()}

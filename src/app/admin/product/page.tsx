@@ -125,7 +125,7 @@ export default function Product() {
                         <span>
                             <svg className="cursor-pointer hover:text-blue-300"
                                 onClick={() => {
-                                    if (products.length === 0)
+                                    if (products.length < 10)
                                         setPage(page)
                                     else
                                         setPage(page + 1);
