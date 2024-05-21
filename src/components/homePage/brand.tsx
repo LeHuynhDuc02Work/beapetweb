@@ -58,7 +58,7 @@ function brand() {
 export default function Brands() {
     return (
         <div className='brand w-4/5 mx-auto my-10'>
-            <h1 className="text-5xl font-bold text-center my-10">CÁC NHÃN HIỆU</h1>
+            <h1 className="text-5xl font-bold text-center my-10">CÁC THƯƠNG HIỆU</h1>
             {brand()}
         </div >
     );
