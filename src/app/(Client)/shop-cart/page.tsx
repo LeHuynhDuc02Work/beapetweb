@@ -53,8 +53,12 @@ function ShopCartItem({ products }) {
     }, [quantityOrder]);
 
     products.forEach(element => {
-
-        arr.push(element?.quantityShopCart);
+        if (element.quantity < element.quantityShopCart) {
+            arr.push(element?.quantity);
+        }
+        else {
+            arr.push(element?.quantityShopCart);
+        }
     });
     if (quantityOrder.length == 0 && arr.length != 0) {
         setQuantityOrder(arr);

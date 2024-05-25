@@ -126,27 +126,58 @@ function ProductDetailItem({ product, brand }) {
                     </div>
                     <div className="add-to-cart">
                         <div className="item_quantity product-quantity qty-click d-inline-block py-4">
-                            <button onClick={() => setQuantity(quantity - 1)} type="button" className="btn-qtyminus border w-6">-</button>
+                            <button onClick={() => {
+                                if (quantity <= 1) {
+                                    setQuantity(1)
+                                }
+                                else {
+                                    setQuantity(quantity - 1)
+                                }
+                            }}
+                                type="button" className="btn-qtyminus border w-6">-</button>
                             <input
                                 onChange={(e) => {
-                                    if (quantity <= 0 || isNaN(quantity)) {
+                                    if (isNaN(quantity)) {
                                         setQuantity(1);
                                     }
                                     else
                                         setQuantity(Number(e.target.value))
+                                    if (Number(e.target.value) > product.quantity) {
+                                        setQuantity(product.quantity);
+                                        const showToastMessage = () => {
+                                            toast.error("Số lượng hàng còn lại không đủ!", {
+                                                position: toast?.POSITION?.TOP_RIGHT,
+                                            });
+                                        };
+                                        showToastMessage();
+                                    }
                                 }}
                                 type="text" name="updates[]"
                                 value={quantity}
                                 className="item-quantity text-center border w-10" />
-                            <button onClick={() => setQuantity(quantity + 1)} type="button" className="btn-qtyplus border w-6">+</button>
+                            <button onClick={() => {
+                                if (quantity >= product.quantity) {
+                                    setQuantity(product.quantity);
+                                    const showToastMessage = () => {
+                                        toast.error("Số lượng hàng còn lại không đủ!", {
+                                            position: toast?.POSITION?.TOP_RIGHT,
+                                        });
+                                    };
+                                    showToastMessage();
+                                }
+                                else {
+                                    setQuantity(quantity + 1);
+                                }
+                            }}
+                                type="button" className="btn-qtyplus border w-6">+</button>
                         </div>
+                        <ToastContainer />
                         <div className="action-add-to-cart  bg-red-500 hover:bg-red-400 text-white font-bold  text-center">
                             <button
                                 onClick={() => AddShopcartHanlde({ product, quantity })}
                                 className="checkout-btn w-full h-full  py-4">
                                 Thêm vào giỏ hàng
                             </button>
-                            <ToastContainer />
                         </div>
                     </div>
                     <div className="product-detail__reviews my-4">
@@ -313,6 +344,7 @@ export default function ProductDetail() {
                     {RelatedProduct({ id, brand })}
                 </div>
             </div>
+
         </div >
     )
 }

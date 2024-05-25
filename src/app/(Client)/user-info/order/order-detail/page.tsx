@@ -94,7 +94,7 @@ export default function OrderDetail() {
 
     useEffect(() => {
         if (order?.addressId != null) {
-            fetch(`${Api()}/address/${order?.addressId}`)
+            fetch(`${Api()}/addressv/${order?.addressId}`)
                 .then(response => response.json())
                 .then(data => {
                     setAddress(data);
