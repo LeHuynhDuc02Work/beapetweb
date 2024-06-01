@@ -180,7 +180,7 @@ function ProductDetailItem({ product, brand }) {
                             </button>
                         </div>
                     </div>
-                    <div className="product-detail__reviews my-4">
+                    <div className="product-detail__reviews border p-4 rounded-md my-4">
                         <h1 className="font-bold">Bình luận</h1>
                         <div className="py-2 border-b">
                             <form
@@ -241,15 +241,15 @@ function ProductDetailItem({ product, brand }) {
         )
 }
 
-function RelatedProduct({ id, brand }) {
+function RelatedProduct({ id, brand, product }) {
     const [products, setProducts] = useState([]);
     useEffect(() => {
-        if (brand?.id != null) {
-            fetch(`${Api()}/brand/${brand?.id}/products?page=1&pageSize=10`)
+        if (product?.id != null) {
+            fetch(`${Api()}/category/${product.productCategoryId}/products?page=1&pageSize=10`)
                 .then(response => response.json())
                 .then(_products => setProducts(_products));
         }
-    }, [brand]);
+    }, [product]);
     if (products.length === 0) {
         return null
     }
@@ -331,7 +331,6 @@ export default function ProductDetail() {
                 .then(data => setBrand(data));
         }
     }, [product]);
-
     return (
         <div className="product-detail">
             {Scrumb()}
@@ -341,7 +340,7 @@ export default function ProductDetail() {
             <div className="related-products my-4">
                 <h1 className="text-3xl font-bold my-5 text-center">SẢN PHẨM LIÊN QUAN</h1>
                 <div className="related-products__container w-4/5 m-auto">
-                    {RelatedProduct({ id, brand })}
+                    {RelatedProduct({ id, brand, product })}
                 </div>
             </div>
 

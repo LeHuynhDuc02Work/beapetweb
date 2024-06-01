@@ -101,7 +101,7 @@ export default function Order() {
                         value={status}
                         onChange={(e) => setStatus(e.target.value)}>
                         <option value={"Tất cả"}>Tất cả</option>
-                        <option value={"Đang chuẩn bị hàng!"}>Đang chuẩn bị hàng!</option>
+                        <option value={"Đang chuẩn bị hàng"}>Đang chuẩn bị hàng</option>
                         <option value={"Đang giao hàng"}>Đang giao hàng</option>
                         <option value={"Đã giao thành công"}>Đã giao thành công</option>
                         <option value={"Đã hủy đơn"}>Đã hủy đơn</option>

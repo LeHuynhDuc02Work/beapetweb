@@ -19,7 +19,7 @@ function Scrumb() {
 function Product({ keyWord, sort }) {
     const [products, setProducts] = useState([]);
     useEffect(() => {
-        fetch(`${Api()}/products/?page=1&pageSize=8&search=${keyWord}&sort=${sort}`)
+        fetch(`${Api()}/products/?page=1&pageSize=20&search=${keyWord}&sort=${sort}`)
             .then(response => response.json())
             .then(_products => setProducts(_products));
     }, [keyWord, sort]);
@@ -70,7 +70,7 @@ function Product({ keyWord, sort }) {
     else {
         return (
             <div className="no-product">
-                <h1 className="text-3xl font-bold text-red-500">Không tìm được sản phẩm cho từ khóa {keyWord}</h1>
+                <h1 className="text-3xl font-bold text-red-500">Không tìm được sản phẩm cho từ khóa {decodeURIComponent(keyWord)}</h1>
             </div>
         )
     }
@@ -94,7 +94,7 @@ export default function Search() {
             {Scrumb()}
             <div className="search-product__header flex justify-between m-4">
                 <div className="search-product__title">
-                    <h1 className="text-3xl font-bold">Kết quả tìm kiếm cho từ khóa {keyWord}</h1>
+                    <h1 className="text-3xl font-bold">Kết quả tìm kiếm cho từ khóa {decodeURIComponent(keyWord)}</h1>
                 </div>
                 <div className="search-product__filter">
                     <span className="font-bold">Filter:</span>
@@ -145,7 +145,7 @@ export default function Search() {
                     </div>
                 </div>
             </div>
-            <div className="search-product__container container w-full flex justify-center flex-wrap min-h-40">
+            <div className="search-product__container container w-full flex justify-center flex-wrap min-h-40 mx-auto">
                 {Product({ keyWord, sort })}
             </div>
         </div>

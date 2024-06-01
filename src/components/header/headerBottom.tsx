@@ -7,7 +7,7 @@ function HeaderBottomItem() {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-        fetch(`${Api()}/categories`)
+        fetch(`${Api()}/categories/?page=1&pageSize=10`)
             .then(response => response.json())
             .then(_categories => setCategories(_categories));
     }, []);

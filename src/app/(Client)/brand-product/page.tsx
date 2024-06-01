@@ -158,7 +158,7 @@ export default function CategoryProduct() {
                     </div>
                 </div>
             </div>
-            <div className="search-product__container container w-full flex justify-center flex-wrap min-h-40">
+            <div className="search-product__container container w-full flex justify-center flex-wrap min-h-40 mx-auto">
                 {Product({ products, page })}
             </div>
             <div className="pagination py-5">

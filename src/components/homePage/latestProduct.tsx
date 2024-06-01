@@ -14,12 +14,9 @@ function Product() {
         <>
             {data.map((product) => (
                 <div className="product-item border w-1/5 m-2" >
-                    <Link
+                    <a
                         className='h-full'
-                        href={{
-                            pathname: '/product-detail',
-                            query: { id: `${product.id}` },
-                        }}>
+                        href={`/product-detail/?id=${product.id}`}>
                         <div className="product-item__image">
                             <img
                                 src={apiImage() + product.image}
@@ -40,7 +37,7 @@ function Product() {
                                 </h1>
                             </div>
                         </div>
-                    </Link>
+                    </a>
                 </div >
             ))
             }

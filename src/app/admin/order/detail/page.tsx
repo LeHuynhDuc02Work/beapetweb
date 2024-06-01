@@ -2,6 +2,8 @@
 import Link from "next/link";
 import Api from "@/app/api";
 import React, { useEffect, useState } from 'react';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 import apiImage from "@/app/apiImage";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,6 +18,33 @@ function Scrumb() {
         </div>
     )
 }
+
+function downloadPdf() {
+    try {
+        // Lấy phần tử HTML mà bạn muốn chuyển đổi sang PDF
+        const element = document.getElementById('content-order');
+
+        if (element) {
+            element.classList.remove('hidden')
+            // Sử dụng html2canvas để chụp ảnh màn hình của phần tử HTML
+            html2canvas(element).then((canvas) => {
+                // Tạo một PDF mới bằng jsPDF
+                const doc = new jsPDF('p', 'mm', 'a4');
+
+                // Thêm canvas vào PDF
+                const imgData = canvas.toDataURL('image/png');
+                doc.addImage(imgData, 'PNG', 0, 0);
+
+                // Mở PDF trong cửa sổ mới
+                const pdfUrl = doc.output('bloburl');
+                window.open(pdfUrl);
+            });
+            element.classList.add('hidden')
+        }
+    } catch (error) {
+        console.error('Error generating PDF:', error);
+    }
+};
 
 function FormatDate(date) {
     const dateTimeString = date;
@@ -79,7 +108,7 @@ export default function OrderEdit() {
 
     useEffect(() => {
         if (order != null) {
-            fetch(`${Api()}/address/${order.addressId}`)
+            fetch(`${Api()}/addressv/${order.addressId}`)
                 .then(response => response.json())
                 .then(data => {
                     setAddress(data);
@@ -148,7 +177,7 @@ export default function OrderEdit() {
                                     {FormatDate(order?.createdOn)}
                                 </span>
                             </div>
-                            <div className="py-1">
+                            <div className="py-2">
                                 <span className="font-bold">
                                     Trạng thái:&nbsp;&nbsp;
                                 </span>
@@ -194,6 +223,11 @@ export default function OrderEdit() {
                                     </select>
                                 </span>
                             </div>
+                            <div>
+                                <button className="border font-bold p-2 rounded-md bg-blue-500 text-white hover:bg-blue-400" onClick={downloadPdf}>
+                                    Xuất hóa đơn
+                                </button>
+                            </div>
                             <ToastContainer />
                         </div>
                     </div>
@@ -235,6 +269,95 @@ export default function OrderEdit() {
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                </div>
+                <div id="content-order" className="w-1/2 p-2 hidden">
+                    <p>Cửa hàng thú cưng BEAPET</p>
+                    <h1 className="text-5xl font-bold text-center pl-5">HÓA ĐƠN</h1>
+                    <br></br>
+                    <br></br>
+                    <div className="admin-order__info border ml-5">
+                        <div className="text-center font-bold pb-4 border-b">
+                            Thông tin giao hàng
+                        </div>
+                        <div className="content p-3">
+                            <div className="py-1">
+                                <span className="font-bold">
+                                    Tên khách hàng:&nbsp;&nbsp;
+                                </span>
+                                <span>
+                                    {address?.nameCustomer}
+                                </span>
+                            </div>
+                            <div className="py-1">
+                                <span className="font-bold">
+                                    Số điện thoại:&nbsp;&nbsp;
+                                </span>
+                                <span>
+                                    {address?.phone}
+                                </span>
+                            </div>
+                            <div className="py-1">
+                                <span className="font-bold">
+                                    Địa chỉ nhận hàng:&nbsp;&nbsp;
+                                </span>
+                                <span>
+                                    {address?.address}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="admin-order__product w-9/10">
+                        <div className="py-5 text-center font-bold text-xl">
+                            Sản phẩm đã đặt
+                        </div>
+                        <div className="admin-order__product__item ml-5">
+                            <table className="w-full">
+                                <thead>
+                                    <tr className="border">
+                                        <th className="pb-4 px-2">#</th>
+                                        <th className="pb-4">Tên sản phẩm</th>
+                                        <th className="pb-4">Số lượng</th>
+                                        <th className="pb-4">Tổng tiền</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {products.map((product, index) => {
+                                        return (
+                                            <tr className="text-center border">
+                                                <td className="pb-4 px-2">{index + 1}</td>
+                                                <td className="pb-4">
+                                                    <div>
+                                                        {product?.name}
+                                                    </div>
+                                                </td>
+                                                <td className="pb-4">
+                                                    <div>
+                                                        {product?.orderQuantity}
+                                                    </div>
+                                                </td>
+                                                <td className="pb-4">
+                                                    <div>{(product?.salePrice * product?.orderQuantity).toLocaleString('en-US')}đ</div>
+                                                </td>
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div className="text-right text-2xl">
+                        <span className="font-bold">Tổng tiền: &nbsp;
+                        </span><span className="text-red-500 font-bold">{order?.totalAmount.toLocaleString('en-US')}đ</span>
+                    </div>
+                    <div className="px-5">
+                        <div className="font-bold">
+                            Chữ ký của người nhận
+                        </div>
+                        <div>
+                            &nbsp;&nbsp;&nbsp;(Ký và ghi rõ họ tên)
+                        </div>
+                        <br />
                     </div>
                 </div>
             </div>

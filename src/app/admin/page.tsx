@@ -19,12 +19,15 @@ export default function Admin() {
     const [products, setProducts] = useState([]);
     const [status, setStatus] = useState('Đã giao thành công');
     const [search, setSearch] = useState('Sản phẩm bán chạy(10)');
+    const [fromMonth, setFromMonth] = useState(1);
+    const [toMonth, setToMonth] = useState(12);
+    const [year, setYear] = useState(2024);
 
     useEffect(() => {
-        fetch(`${Api()}/order-statiscal/?status=${status}`)
+        fetch(`${Api()}/order-statiscal/?status=${status}&fromMonth=${fromMonth}&toMonth=${toMonth}&year=${year}`)
             .then((res) => res.json())
             .then((data) => setOrders(data));
-    }, [status]);
+    }, [status, fromMonth, toMonth, year]);
 
     useEffect(() => {
         fetch(`${Api()}/products-analys/?search=${search}&pageSize=10`)
@@ -48,8 +51,52 @@ export default function Admin() {
                             <option value="Đã giao thành công">Đã giao thành công</option>
                             <option value="Đã hủy đơn">Đã hủy đơn</option>
                         </select>
+                        <span className="font-bold pl-2 mx-1">Từ tháng</span>
+                        <select className="filter__input border p-2 rounded-md"
+                            value={fromMonth}
+                            onChange={(e) => setFromMonth(Number(e.target.value))}>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                        <span className="font-bold pl-2 mx-1">Đến hết tháng</span>
+                        <select className="filter__input border p-2 rounded-md"
+                            value={toMonth}
+                            onChange={(e) => setToMonth(Number(e.target.value))}>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                        <span className="font-bold pl-2 mx-1">Năm</span>
+                        <select className="filter__input border p-2 rounded-md"
+                            value={year}
+                            onChange={(e) => setYear(Number(e.target.value))}>
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+                            <option value="2022">2022</option>
+                            <option value="2021">2021</option>
+                            <option value="2020">2020</option>
+                        </select>
                     </div>
-                    <table className="text-center border">
+                    <table className="text-center border my-1">
                         <thead>
                             <tr>
                                 <th className="px-10 py-2 border">#</th>
@@ -79,7 +126,7 @@ export default function Admin() {
                             <option value="Sản phẩm bán chậm(10)">Sản phẩm bán chậm(10)</option>
                         </select>
                     </div>
-                    <table className="text-center border">
+                    <table className="text-center border my-1">
                         <thead>
                             <tr>
                                 <th className="px-10 py-2 border">#</th>
