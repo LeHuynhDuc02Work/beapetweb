@@ -1,4 +1,5 @@
 import Link from "next/link"
+import apiImage from "@/app/apiImage"
 export default function Footer() {
     return (
         <footer className="footer text-white bg-black">
@@ -59,7 +60,7 @@ export default function Footer() {
                         <h1 className="text-xl font-bold">Fanpage</h1>
                     </div>
                     <div className="footer-top__item__content my-4">
-                        <iframe width="250" src="https://www.youtube.com/embed/oFGz1kcRPfY" title="Rửa Mặt Như Mèo - Meo Meo rửa mặt như Mèo - Bé Mon | Nhạc Thiếu Nhi Vui Nhộn Sôi Động Hay Nhất" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        <img src={apiImage() + "fanpage1.jpg"} width={250} alt="hình ảnh fanpage" />
                     </div>
                 </div>
             </div>

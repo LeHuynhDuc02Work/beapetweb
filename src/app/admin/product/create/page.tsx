@@ -23,9 +23,9 @@ function FormCreate() {
     const [detail, setDetail] = useState('');
     const [salePrice, setSalePrice] = useState(0);
     const [price, setPrice] = useState(0);
-    const [quantity, setQuantity] = useState(0);
-    const [productCategoryId, setProductCategoryId] = useState(0);
-    const [brandId, setBrandId] = useState(0);
+    const [quantity, setQuantity] = useState(1);
+    const [productCategoryId, setProductCategoryId] = useState(18);
+    const [brandId, setBrandId] = useState(1);
     const [image, setImage] = useState('');
     const [filePath, setFilePath] = useState('');
 
@@ -167,7 +167,8 @@ function FormCreate() {
                                 <select
                                     id="brand"
                                     name="brand"
-                                    onChange={(e) => setBrandId(e.target.value)}
+                                    value={brandId}
+                                    onChange={(e) => setBrandId(Number(e.target.value))}
                                     autoComplete="brand-name"
                                     className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                 >
@@ -189,7 +190,8 @@ function FormCreate() {
                                 <select
                                     id="category"
                                     name="category"
-                                    onChange={(e) => setProductCategoryId(e.target.value)}
+                                    value={productCategoryId}
+                                    onChange={(e) => setProductCategoryId(Number(e.target.value))}
                                     autoComplete="category-name"
                                     className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                                 >

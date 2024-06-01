@@ -16,7 +16,7 @@ function Scrumb() {
         </div>
     )
 }
-function FormCreate() {
+function FormUpdate() {
     const [id, setId] = useState(null);
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
@@ -27,7 +27,7 @@ function FormCreate() {
     const [productCategoryId, setProductCategoryId] = useState(0);
     const [brandId, setBrandId] = useState(0);
     const [image, setImage] = useState('');
-    const [filePath, setFilePath] = useState('');//
+    const [filePath, setFilePath] = useState('');
     const [product, setProduct] = useState(null);
     const [brands, setBrands] = useState([]);
     const [productCategories, setProductCategories] = useState([]);
@@ -193,7 +193,7 @@ function FormCreate() {
                                 <select
                                     id="brand"
                                     name="brand"
-                                    onChange={(e) => setBrandId(e.target.value)}
+                                    onChange={(e) => setBrandId(Number(e.target.value))}
                                     value={brandId}
                                     autoComplete="brand-name"
                                     className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
@@ -216,7 +216,7 @@ function FormCreate() {
                                 <select
                                     id="category"
                                     name="category"
-                                    onChange={(e) => setProductCategoryId(e.target.value)}
+                                    onChange={(e) => setProductCategoryId(Number(e.target.value))}
                                     value={productCategoryId}
                                     autoComplete="category-name"
                                     className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
@@ -326,12 +326,12 @@ function FormCreate() {
     )
 }
 
-export default function CreateProduct() {
+export default function UpdateProduct() {
     return (
-        <div className="create-product">
+        <div className="update-product">
             {Scrumb()}
-            <div className="form-create w-4/5 mx-auto">
-                {FormCreate()}
+            <div className="form-update w-4/5 mx-auto">
+                {FormUpdate()}
             </div>
 
         </div>
